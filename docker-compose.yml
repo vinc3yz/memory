@@ -1,0 +1,13 @@
+version: '3.3'
+
+services:
+  webapp:
+    container_name: memory-app
+    build:
+     context: .
+     dockerfile: Dockerfile
+    volumes:
+      - ./conf:/etc/nginx
+    ports:
+      - "80:80"
+      - "443:443"
