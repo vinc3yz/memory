@@ -22,7 +22,14 @@ jobs:
         run: |
           for file in $(find ./html/data -name "*.jpg"); do
             echo "Checking image $file"
-            file "$file"
+            
+            # Check if the file is a valid JPEG
+            if file "$file" | grep -q 'JPEG image data'; then
+              echo "$file is a valid JPEG"
+            else
+              echo "::error file=$file:: $file is not a valid JPEG"
+              exit 1 # Fail the pipeline if the file is not a JPEG
+            fi
           done
 
   build:
