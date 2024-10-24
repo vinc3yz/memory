@@ -41,11 +41,13 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-
-      - name: Build Docker Image
+      
+      - name: Build Docker Image from Compose
         run: |
-          docker build -t ${{ secrets.DOCKER_USER }}/${{ env.APP_NAME }}:latest -f Dockerfile .
-          
+          docker-compose -f docker-compose.yml build
+      - name: Tag image
+        run: |
+          docker tag memory ${{ secrets.DOCKER_USER }}/${{ env.APP_NAME }}:latest
 
   push:
     runs-on: self-hosted
